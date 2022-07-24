@@ -29,6 +29,9 @@ let UserService = class UserService {
     findOne(id) {
         return `This action returns a #${id} user`;
     }
+    async findOneByUsername(username) {
+        return await this.prisma.user.findFirst({ where: { username } });
+    }
     update(id, updateUserDto) {
         return `This action updates a #${id} user`;
     }

@@ -15,7 +15,9 @@ let PrismaModule = class PrismaModule {
 PrismaModule = __decorate([
     (0, common_1.Global)(),
     (0, common_1.Module)({
-        providers: [{ provide: globals_types_1.globalProviders.prisma, useValue: prisma_service_1.PrismaService }],
+        providers: [
+            { provide: globals_types_1.globalProviders.prisma, useValue: new prisma_service_1.PrismaService() },
+        ],
         exports: [globals_types_1.globalProviders.prisma],
     })
 ], PrismaModule);
