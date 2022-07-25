@@ -6,4 +6,5 @@ export class Post implements PrismaPost {
   title: string;
   userId: string;
   author: User;
+  content: string;
 }

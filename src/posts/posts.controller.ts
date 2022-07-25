@@ -7,12 +7,15 @@ import {
   Param,
   Delete,
   UseGuards,
+  HttpException,
 } from '@nestjs/common';
+import { ApiQuery, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { PostsService } from './posts.service';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
+import { CreatePostDto, UpdatePostDto, QueryPostsDTO } from './dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@ApiBearerAuth()
+@ApiTags('posts')
 @UseGuards(JwtAuthGuard)
 @Controller('posts')
 export class PostsController {
@@ -24,7 +27,9 @@ export class PostsController {
   }
 
   @Get()
+  @ApiQuery({ type: QueryPostsDTO })
   findAll() {
+    throw new HttpException('test', 400);
     return this.postsService.findAll();
   }
 
