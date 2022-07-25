@@ -5,4 +5,12 @@ declare global {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
     interface User extends PrismaUser {}
   }
+
+  namespace NodeJS {
+    interface ProcessEnv {
+      DATABASE_URL: string;
+      JWT_SECRET: string;
+      PORT: number;
+    }
+  }
 }
