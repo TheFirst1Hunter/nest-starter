@@ -11,6 +11,8 @@ declare global {
       DATABASE_URL: string;
       JWT_SECRET: string;
       PORT: number;
+      JWT_ACCESS_TOKEN_LIFETIME: string;
+      JWT_REFRESH_TOKEN_LIFETIME: string;
     }
   }
 }

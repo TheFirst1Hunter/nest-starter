@@ -1,33 +1,36 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { PrismaClient } from '@prisma/client';
+import { JwtService } from '@nestjs/jwt';
+import bcrypt from 'bcryptjs';
+import { LoginObject } from './user.types';
+import { SignInDTO } from './dto';
 import { globalProviders } from '../globals/globals.types';
-import { PrismaClient, User } from '@prisma/client';
 
 @Injectable()
 export class UserService {
-  constructor(@Inject(globalProviders.prisma) private prisma: PrismaClient) {}
-  create(createUserDto: CreateUserDto) {
-    return this.prisma.user.findMany();
-  }
+  constructor(
+    @Inject(globalProviders.prisma) private prisma: PrismaClient,
+    private readonly jwtService: JwtService,
+  ) {}
+  async signIn(signInDTO: SignInDTO): Promise<LoginObject> {
+    const salt = await bcrypt.genSalt();
 
-  findAll() {
-    return this.prisma.user.findMany();
-  }
+    signInDTO.password = await bcrypt.hash(signInDTO.password, salt);
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+    const user = await this.prisma.user.create({ data: signInDTO });
 
-  async findOneByUsername(username: string): Promise<User> {
-    return await this.prisma.user.findFirst({ where: { username } });
-  }
+    const { password, ...userWithoutPassword } = user;
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+    const loginObject: LoginObject = {
+      data: userWithoutPassword,
+      accessToken: this.jwtService.sign(user.id, {
+        expiresIn: process.env.JWT_ACCESS_TOKEN_LIFETIME,
+      }),
+      refreshToken: this.jwtService.sign(user.id, {
+        expiresIn: process.env.JWT_REFRESH_TOKEN_LIFETIME,
+      }),
+    };
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+    return loginObject;
   }
 }
