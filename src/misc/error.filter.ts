@@ -6,13 +6,17 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { Prisma } from '@prisma/client';
+import { Environment } from '../types/environment';
 
 @Catch()
 export class ErrorFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
     let message: string;
 
-    console.log(exception);
+    if (process.env.NODE_ENV === 'DEVELOPMENT') {
+      console.log(exception);
+    }
+
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const status =

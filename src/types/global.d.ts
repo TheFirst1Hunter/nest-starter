@@ -1,4 +1,5 @@
 import { User as PrismaUser } from '@prisma/client';
+import { Environment } from './environment';
 
 declare global {
   namespace Express {
@@ -13,7 +14,7 @@ declare global {
       PORT: number;
       JWT_ACCESS_TOKEN_LIFETIME: string;
       JWT_REFRESH_TOKEN_LIFETIME: string;
-      NODE_ENV: string;
+      NODE_ENV: Environment;
     }
   }
 }
