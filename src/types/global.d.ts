@@ -13,6 +13,7 @@ declare global {
       PORT: number;
       JWT_ACCESS_TOKEN_LIFETIME: string;
       JWT_REFRESH_TOKEN_LIFETIME: string;
+      NODE_ENV: string;
     }
   }
 }
