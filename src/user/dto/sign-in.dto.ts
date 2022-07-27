@@ -1,10 +1,13 @@
 import { IsString, MinLength, Matches } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class SignInDTO {
+  @ApiProperty({ required: true, example: 'jhon' })
   @IsString()
   @MinLength(2)
   username: string;
 
+  @ApiProperty({ required: true, example: '1d4jk4g5$EG!' })
   @IsString()
   @MinLength(8)
   @Matches(

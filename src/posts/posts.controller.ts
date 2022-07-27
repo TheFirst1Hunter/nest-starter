@@ -29,7 +29,6 @@ export class PostsController {
   @Get()
   @ApiQuery({ type: QueryPostsDTO })
   findAll() {
-    throw new HttpException('test', 400);
     return this.postsService.findAll();
   }
 
