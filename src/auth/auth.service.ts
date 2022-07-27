@@ -5,12 +5,15 @@ import { UserService } from '../user/user.service';
 export class AuthService {
   constructor(private usersService: UserService) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findOneByUsername(username);
-    if (user && user.password === pass) {
-      const { password, ...result } = user;
-      return result;
-    }
-    return null;
-  }
+  // async validateUser(username: string, pass: string): Promise<any> {
+  //   const user = await this.usersService.findOneByUsername(username);
+
+  //   console.log('user');
+
+  //   if (user && user.password === pass) {
+  //     const { password, ...result } = user;
+  //     return result;
+  //   }
+  //   return null;
+  // }
 }

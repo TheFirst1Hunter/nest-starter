@@ -1,15 +1,18 @@
-import { IsString, Min, Matches } from 'class-validator';
+import { IsString, MinLength, Matches } from 'class-validator';
 
 export class SignInDTO {
   @IsString()
-  @Min(2)
+  @MinLength(2)
   username: string;
 
   @IsString()
-  @Min(8)
-  @Matches(/(?i)^(?=[a-z])(?=.*[0-9])([a-z0-9!@#$%^&*()_?+-=])$/, {
-    message:
-      'password requires at least two lowercase letters, two uppercase letters, two digits, and two special characters. There must be a minimum of 9 characters total, and no white space characters are allowed.',
-  })
+  @MinLength(8)
+  @Matches(
+    /^\S*(?=\S{8,})(?=\S*\d)(?=\S*[A-Z])(?=\S*[a-z])(?=\S*[!@#$%^&*? ])\S*$/,
+    {
+      message:
+        'password requires Minimum 8 characters, At least 1 upper case English letter, At least 1 lower case English letter, At least 1 letter,At least 1 special character.',
+    },
+  )
   password: string;
 }

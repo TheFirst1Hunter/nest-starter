@@ -8,14 +8,19 @@ import {
   Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { SignInDTO } from './dto';
+import { SignInDTO, LoginDTO } from './dto';
 
-@Controller('user')
+@Controller('auth')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create(@Body() SignInDTO: SignInDTO) {
-    return this.userService.signIn(SignInDTO);
+  @Post('/signIn')
+  signIn(@Body() signInDTO: SignInDTO) {
+    return this.userService.signIn(signInDTO);
+  }
+
+  @Post('/login')
+  login(@Body() loginDTO: LoginDTO) {
+    return this.userService.validateUser(loginDTO);
   }
 }
